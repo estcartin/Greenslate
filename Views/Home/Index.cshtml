@@ -1,0 +1,37 @@
+﻿@model Greenslate.Models.IndexViewModel
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div>
+    <h1>Project info by user</h1>
+    <p class="lead">Select the user Id to query their project assignments.</p>
+</div>
+
+@Html.Label("Select a user: ")
+@Html.DropDownList("FromModel", Model.Names, "--", new { id = "UserSelect",  @class = "selectpicker" })
+
+<div id="NoContentMessage" class="container-fluid h3">
+    <p class="text-center bg-info">No content to display.</p>
+</div>
+
+<div id="ErrorMessage" class="container-fluid h3 hidden">
+    <p class="text-center bg-danger">There was an error retrieving data, please try again.</p>
+</div>
+
+<table id="MainTable" class="table table-hover hidden">
+    <thead>
+        <tr>
+            <th scope="col">Project Id</th>
+            <th scope="col">Start Date</th>
+            <th scope="col">Time to Start</th>
+            <th scope="col">End Date</th>
+            <th scope="col">Credits</th>
+            <th scope="col">Status</th>
+        </tr>
+    </thead>
+    <tbody id="MainTableContent">
+    </tbody>
+</table>
+
