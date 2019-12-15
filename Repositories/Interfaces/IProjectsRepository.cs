@@ -10,8 +10,6 @@ namespace Greenslate.Repositories.Interfaces
 {
     public interface IProjectsRepository
     {
-        ObjectResult<GetUserProjectData_Result> GetUserProjectData(int id);
-
-        IList<UserProjectsDTO> GetUserProjectFromCode(int id);
+        IList<UserProjectsDTO> GetUserProjectData(int id);
     }
 }

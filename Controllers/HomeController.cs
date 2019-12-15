@@ -1,5 +1,4 @@
 ﻿using Greenslate.Models;
-using Greenslate.Repositories.Implementations; //TODO: REMOVE
 using Greenslate.Repositories.Interfaces;
 using Newtonsoft.Json;
 using System;
@@ -47,7 +46,7 @@ namespace Greenslate.Controllers
         [HttpGet]
         public ActionResult GetUserProjectInfo(int id) 
         {
-            var query = projectsRepository.GetUserProjectFromCode(id);
+            var query = projectsRepository.GetUserProjectData(id);
 
             var result = JsonConvert.SerializeObject(query);
 
