@@ -1,5 +1,6 @@
 ﻿using Greenslate.Models;
 using Greenslate.Repositories.Implementations; //TODO: REMOVE
+using Greenslate.Repositories.Interfaces;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,13 +12,20 @@ namespace Greenslate.Controllers
 {
     public class HomeController : Controller
     {
+        readonly IUsersRepository usersRepository;
+        readonly IProjectsRepository projectsRepository;
+
+        public HomeController(IUsersRepository userRepo, IProjectsRepository projectsRepo)
+        {
+            usersRepository = userRepo;
+            projectsRepository = projectsRepo;
+        }
+
         public ActionResult Index()
         {
-            var repo = new UsersRepository();
-
             var vm = new IndexViewModel();
 
-            vm.UserNames = repo.GetAllUserNames();
+            vm.UserNames = usersRepository.GetAllUserNames();
 
             return View(vm);
         }
@@ -39,12 +47,7 @@ namespace Greenslate.Controllers
         [HttpGet]
         public ActionResult GetUserProjectInfo(int id) 
         {
-
-            var repo = new ProjectsRepository();
-
-            
-
-            var query = repo.GetUserProjectData(id).ToList();
+            var query = projectsRepository.GetUserProjectFromCode(id);
 
             var result = JsonConvert.SerializeObject(query);
 
