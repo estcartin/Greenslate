@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web;
+using log4net;
 
 namespace Greenslate.Repositories.Implementations
 {
@@ -13,10 +14,12 @@ namespace Greenslate.Repositories.Implementations
     {
 
         private readonly GreenslateContext dbContext;
+        private readonly ILog logger;
 
-        public ProjectsRepository()
+        public ProjectsRepository(ILog log)
         {
             dbContext = new GreenslateContext();
+            logger = log;
         }
 
         public IList<UserProjectsDTO> GetUserProjectData(int id)
@@ -28,6 +31,7 @@ namespace Greenslate.Repositories.Implementations
 
         private IList<UserProjectsDTO> GetUserProjectDataFromStoreProc(int id)
         {
+            logger.Debug("ProjectsRepository:GetUserProjectDataFromStoreProc - Using Store Procs");
             var result = dbContext.GetUserProjectData(id).Select(p => new UserProjectsDTO()
             {
                 ProjectId = p.ProjectId,
@@ -43,6 +47,7 @@ namespace Greenslate.Repositories.Implementations
 
         private IList<UserProjectsDTO> GetUserProjectFromLinq(int id)
         {
+            logger.Debug("ProjectsRepository:GetUserProjectFromLinq - Using Linq");
 
             var projects = dbContext.UserProjects.Where(u => u.UserId == id)
                 .Select(p => new UserProjectsDTO()

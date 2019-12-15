@@ -2,6 +2,7 @@ using Greenslate.Repositories.Implementations;
 using Greenslate.Repositories.Interfaces;
 using System.Web.Mvc;
 using Unity;
+using Unity.log4net;
 using Unity.Mvc5;
 
 namespace Greenslate
@@ -17,6 +18,7 @@ namespace Greenslate
 
             // e.g. container.RegisterType<ITestService, TestService>();
 
+            container.AddNewExtension<Log4NetExtension>();
             container.RegisterType<IUsersRepository, UsersRepository>();
             container.RegisterType<IProjectsRepository, ProjectsRepository>();
 
