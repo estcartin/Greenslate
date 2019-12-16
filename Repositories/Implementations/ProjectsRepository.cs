@@ -5,34 +5,57 @@ using System.Configuration;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using log4net;
 
 namespace Greenslate.Repositories.Implementations
 {
+    /// <summary>
+    /// Class ProjectsRepository, implements IProjectsRepository
+    /// </summary>
     public class ProjectsRepository : IProjectsRepository
     {
 
+        /// <summary>
+        /// The database context created from Entity Framework DB First.
+        /// </summary>
         private readonly GreenslateContext dbContext;
+
+        /// <summary>
+        /// Log4net logger interface
+        /// </summary>
         private readonly ILog logger;
 
+        /// <summary>
+        /// Constructor for this page.
+        /// </summary>
+        /// <param name="log">Log4net injection performed by Unity</param>
         public ProjectsRepository(ILog log)
         {
             dbContext = new GreenslateContext();
             logger = log;
         }
 
-        public IList<UserProjectsDTO> GetUserProjectData(int id)
+        /// <summary>
+        /// Method used to retrieve a list of projects for the provided User Id
+        /// </summary>
+        /// <param name="userId">The user Id to retrieve project info for.</param>
+        /// <returns>The list of projects for the user.</returns>
+        public IList<UserProjectsDTO> GetUserProjectData(int userId)
         {
             var usingSql = bool.Parse(ConfigurationManager.AppSettings["GetDataFromStoreProc"]);
 
-            return usingSql ? GetUserProjectDataFromStoreProc(id) : GetUserProjectFromLinq(id);
+            return usingSql ? GetUserProjectDataFromStoreProc(userId) : GetUserProjectFromLinq(userId);
         }
 
-        private IList<UserProjectsDTO> GetUserProjectDataFromStoreProc(int id)
+        /// <summary>
+        /// Method used to retrieve a list of projects for the provided User Id using the database stored procedure.
+        /// </summary>
+        /// <param name="userId">The user Id to retrieve project info for.</param>
+        /// <returns>The list of projects for the user.</returns>
+        private IList<UserProjectsDTO> GetUserProjectDataFromStoreProc(int userId)
         {
             logger.Debug("ProjectsRepository:GetUserProjectDataFromStoreProc - Using Store Procs");
-            var result = dbContext.GetUserProjectData(id).Select(p => new UserProjectsDTO()
+            var result = dbContext.GetUserProjectData(userId).Select(p => new UserProjectsDTO()
             {
                 ProjectId = p.ProjectId,
                 StartDate = p.StartDate,
@@ -45,11 +68,16 @@ namespace Greenslate.Repositories.Implementations
             return result.ToList();
         }
 
-        private IList<UserProjectsDTO> GetUserProjectFromLinq(int id)
+        /// <summary>
+        /// Method used to retrieve a list of projects for the provided User Id using Entity Framework and the entities with Linq.
+        /// </summary>
+        /// <param name="userId">The user Id to retrieve project info for.</param>
+        /// <returns>The list of projects for the user.</returns>
+        private IList<UserProjectsDTO> GetUserProjectFromLinq(int userId)
         {
             logger.Debug("ProjectsRepository:GetUserProjectFromLinq - Using Linq");
 
-            var projects = dbContext.UserProjects.Where(u => u.UserId == id)
+            var projects = dbContext.UserProjects.Where(u => u.UserId == userId)
                 .Select(p => new UserProjectsDTO()
                 {
                     ProjectId = p.ProjectId,

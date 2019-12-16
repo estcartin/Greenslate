@@ -136,13 +136,13 @@
     <value>Time to Start</value>
   </data>
   <data name="Index_NoContentMessage" xml:space="preserve">
-    <value>No content to display.</value>
+    <value>No content to display</value>
   </data>
   <data name="Index_SelectUserDropdown" xml:space="preserve">
     <value>Select a user: </value>
   </data>
   <data name="Index_SelectUserText" xml:space="preserve">
-    <value>Select the user Id to query their project assignments.</value>
+    <value>Select the user Id to query their project assignments</value>
   </data>
   <data name="Index_Title" xml:space="preserve">
     <value>Project info by user</value>

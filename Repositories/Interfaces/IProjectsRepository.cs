@@ -1,15 +1,18 @@
 ﻿using Greenslate.DataTransferObjects;
-using System;
 using System.Collections.Generic;
-using System.Data.Entity.Core.Objects;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Greenslate.Repositories.Interfaces
 {
+    /// <summary>
+    /// Interface IProjectsRepository
+    /// </summary>
     public interface IProjectsRepository
     {
-        IList<UserProjectsDTO> GetUserProjectData(int id);
+        /// <summary>
+        /// Method used to retrieve a list of projects for the provided User Id
+        /// </summary>
+        /// <param name="userId">The user Id to retrieve project info for.</param>
+        /// <returns>The list of projects for the user.</returns>
+        IList<UserProjectsDTO> GetUserProjectData(int userId);
     }
 }

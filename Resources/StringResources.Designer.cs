@@ -115,7 +115,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No content to display..
+        ///   Looks up a localized string similar to No content to display.
         /// </summary>
         public static string Index_NoContentMessage {
             get {
@@ -133,7 +133,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select the user Id to query their project assignments..
+        ///   Looks up a localized string similar to Select the user Id to query their project assignments.
         /// </summary>
         public static string Index_SelectUserText {
             get {

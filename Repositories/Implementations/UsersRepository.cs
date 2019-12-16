@@ -1,26 +1,42 @@
 ﻿using Greenslate.Repositories.Interfaces;
-using System;
+using log4net;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
-using System.Web;
 
 namespace Greenslate.Repositories.Implementations
 {
+    /// <summary>
+    /// Class UsersRepository, implements IUsersRepository
+    /// </summary>
     public class UsersRepository : IUsersRepository
     {
-        private GreenslateContext dbContext;
+        /// <summary>
+        /// The database context created from Entity Framework DB First.
+        /// </summary>
+        private readonly GreenslateContext dbContext;
 
-        public UsersRepository()
+        /// <summary>
+        /// Log4net logger interface
+        /// </summary>
+        private readonly ILog logger;
+
+        /// <summary>
+        /// Constructor for this page.
+        /// </summary>
+        /// <param name="log">Log4net injection performed by Unity</param>
+        public UsersRepository(ILog log)
         {
             dbContext = new GreenslateContext();
+            logger = log;
         }
 
+        /// <summary>
+        /// Method used to retrieve a list of users in the database
+        /// </summary>
+        /// <returns>The list of all users names.</returns>
         public IList<User> GetAllUserNames()
         {
-            var result = dbContext.Users.ToList();
-
-            return result;
+            return dbContext.Users.ToList();
         }
     }
 }
