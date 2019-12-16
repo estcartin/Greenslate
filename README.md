@@ -16,7 +16,7 @@ If you have any questions please don't hesitate to contact me.
   </configuration>
   ```
 
-## Instructions to change query code type
+## Instructions to change method to retrieve projects by user
 
 This projects contains two implementations of the GetUserProjectData method to retrieve the projects for the user.
 One implementation uses the model entities and Linq to retrieve the data.
