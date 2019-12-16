@@ -43,6 +43,12 @@ namespace Greenslate.Repositories.Implementations
         /// <returns>The list of projects for the user.</returns>
         public Result<IList<UserProjectsDTO>> GetUserProjectData(int userId)
         {
+
+            if (userId <= 0) 
+            {
+                throw new ArgumentOutOfRangeException("userId", "Argument userId cannot be equal or less than 0");
+            }
+
             var result = new Result<IList<UserProjectsDTO>>();
 
             try
