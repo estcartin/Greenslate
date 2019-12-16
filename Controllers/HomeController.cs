@@ -18,9 +18,20 @@ namespace Greenslate.Controllers
 
         public ActionResult Index()
         {
+            // Load users.
+            var users = usersRepository.GetAllUserNames();
             var vm = new IndexViewModel();
 
-            vm.Users = usersRepository.GetAllUserNames();
+            // Check if data was received successfully
+            if (users.Status.IsSuccessful)
+            {
+                vm.Users = users.Data;
+            }
+            else 
+            {
+                // Redirect to generic error page
+                return Redirect("/Home/Error");
+            }
 
             return View(vm);
         }
@@ -42,11 +53,19 @@ namespace Greenslate.Controllers
         [HttpGet]
         public ActionResult GetUserProjectInfo(int id) 
         {
+            // Load projects for selected user.
             var query = projectsRepository.GetUserProjectData(id);
 
+            // Serialize object to return as json.
             var result = JsonConvert.SerializeObject(query);
 
+            // If any error it will be handled in Javascript file.
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Error()
+        {
+            return View();
         }
     }
 }

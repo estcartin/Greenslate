@@ -29,8 +29,11 @@
     // Handles the success event for the ajax call.
     function successFunc(data, status)
     {
+        // Parse the data received from the ajax call
+        var projects = $.parseJSON(data);
+
         // Check for successful call.
-        if (status !== "success")
+        if (status !== "success" && !projects.Status.IsSuccessful)
         {
             errorFunc();
             return;
@@ -42,11 +45,8 @@
         $("#NoContentMessage, #ErrorMessage").addClass("hidden");
         table.empty();
 
-        // Parse the data received from the ajax call
-        var projects = $.parseJSON(data);
-
         // Add each of the received elements to the cleared table.
-        $.each(projects, function (i, item)
+        $.each(projects.Data, function (i, item)
         {
             table.append(
                 '<tr>' +
@@ -77,6 +77,4 @@
         // Return the formatted date.
         return ('0' + month).slice(-2) + "/" + ('0' + date.getDate()).slice(-2) + "/" + date.getFullYear();
     }
-
-        
 });

@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using log4net;
+using Greenslate.Common;
 
 namespace Greenslate.Repositories.Implementations
 {
@@ -40,11 +41,29 @@ namespace Greenslate.Repositories.Implementations
         /// </summary>
         /// <param name="userId">The user Id to retrieve project info for.</param>
         /// <returns>The list of projects for the user.</returns>
-        public IList<UserProjectsDTO> GetUserProjectData(int userId)
+        public Result<IList<UserProjectsDTO>> GetUserProjectData(int userId)
         {
-            var usingSql = bool.Parse(ConfigurationManager.AppSettings["GetDataFromStoreProc"]);
+            var result = new Result<IList<UserProjectsDTO>>();
 
-            return usingSql ? GetUserProjectDataFromStoreProc(userId) : GetUserProjectFromLinq(userId);
+            try
+            {
+                // Read config for method type selection.
+                var usingSql = bool.Parse(ConfigurationManager.AppSettings["GetDataFromStoreProc"]);
+
+                // Attempt read user projects from db.
+                result.Data = usingSql ? GetUserProjectDataFromStoreProc(userId) : GetUserProjectFromLinq(userId);
+
+                // Set success status.
+                result.Status.SetSuccessfulStatus();
+                logger.Debug("ProjectsRepository:GetUserProjectData - Ended succesfully");
+            }
+            catch (Exception e)
+            {
+                logger.ErrorFormat("ProjectsRepository:GetUserProjectData - Error while trying to read user projects from DB. ErrorDesc: {0} StackTrace:{1}", e.Message, e.StackTrace);
+                result.Status.SetErrorStatus(StatusCode.GENERAL_ERROR, e.Message);
+            }
+
+            return result;
         }
 
         /// <summary>

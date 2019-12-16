@@ -1,5 +1,7 @@
-﻿using Greenslate.Repositories.Interfaces;
+﻿using Greenslate.Common;
+using Greenslate.Repositories.Interfaces;
 using log4net;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -34,9 +36,27 @@ namespace Greenslate.Repositories.Implementations
         /// Method used to retrieve a list of users in the database
         /// </summary>
         /// <returns>The list of all users names.</returns>
-        public IList<User> GetAllUserNames()
+        public Result<IList<User>> GetAllUserNames()
         {
-            return dbContext.Users.ToList();
+            var result = new Result<IList<User>>();
+
+            try
+            {
+                // Attempt read users from DB.
+                result.Data = dbContext.Users.ToList();
+
+                // Set success status.
+                result.Status.SetSuccessfulStatus();
+
+                logger.Debug("UsersRepository:GetAllUserNames - Ended succesfully");
+            }
+            catch (Exception e)
+            {
+                logger.ErrorFormat("UsersRepository:GetAllUserNames - Error while trying to read user from DB. ErrorDesc: {0} StackTrace:{1}", e.Message, e.StackTrace);
+                result.Status.SetErrorStatus(StatusCode.GENERAL_ERROR, e.Message);
+            }
+
+            return result;
         }
     }
 }

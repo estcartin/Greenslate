@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Greenslate.Common;
+using System.Collections.Generic;
 
 namespace Greenslate.Repositories.Interfaces
 {
@@ -11,7 +12,7 @@ namespace Greenslate.Repositories.Interfaces
         /// Method used to retrieve a list of users in the database
         /// </summary>
         /// <returns>The list of users.</returns>
-        IList<User> GetAllUserNames();
+        Result<IList<User>> GetAllUserNames();
 
     }
 }

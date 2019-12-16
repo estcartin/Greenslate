@@ -1,4 +1,5 @@
-﻿using Greenslate.DataTransferObjects;
+﻿using Greenslate.Common;
+using Greenslate.DataTransferObjects;
 using System.Collections.Generic;
 
 namespace Greenslate.Repositories.Interfaces
@@ -13,6 +14,6 @@ namespace Greenslate.Repositories.Interfaces
         /// </summary>
         /// <param name="userId">The user Id to retrieve project info for.</param>
         /// <returns>The list of projects for the user.</returns>
-        IList<UserProjectsDTO> GetUserProjectData(int userId);
+        Result<IList<UserProjectsDTO>> GetUserProjectData(int userId);
     }
 }
