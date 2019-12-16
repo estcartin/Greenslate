@@ -12,6 +12,7 @@ namespace Greenslate.Common
     {
         GENERAL_ERROR,
         NULL_PARAMETER,
+        INVALID_PARAMETER,
         DATABASE_ERROR,
         THIRD_PARTY_ERROR,
         SUCCESS

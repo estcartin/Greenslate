@@ -12,7 +12,7 @@
         }
 
         // Selected value which is the User Id.
-        var data = { id : e.target.value };
+        var data = { id: e.target.value };
 
         // Ajax call to retrieve the projects for the user.
         $.ajax({

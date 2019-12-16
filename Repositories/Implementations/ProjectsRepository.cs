@@ -43,13 +43,15 @@ namespace Greenslate.Repositories.Implementations
         /// <returns>The list of projects for the user.</returns>
         public Result<IList<UserProjectsDTO>> GetUserProjectData(int userId)
         {
+            var result = new Result<IList<UserProjectsDTO>>();
 
             if (userId <= 0) 
             {
-                throw new ArgumentOutOfRangeException("userId", "Argument userId cannot be equal or less than 0");
+                logger.Error("ProjectsRepository:GetUserProjectData - Parameter userId is null.");
+                result.Status.SetErrorStatus(result.Status.StatusCode = StatusCode.INVALID_PARAMETER, 
+                    result.Status.StatusDesc = "Argument userId cannot be equal or less than 0");
+                return result;
             }
-
-            var result = new Result<IList<UserProjectsDTO>>();
 
             try
             {
