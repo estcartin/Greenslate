@@ -1,14 +1,18 @@
-﻿using System;
+﻿using Greenslate.Common;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Greenslate.Repositories.Interfaces
 {
+    /// <summary>
+    /// Interface IUsersRepository
+    /// </summary>
     public interface IUsersRepository
     {
-        IList<User> GetAllUserNames();
+        /// <summary>
+        /// Method used to retrieve a list of users in the database
+        /// </summary>
+        /// <returns>The list of users.</returns>
+        Result<IList<User>> GetAllUserNames();
 
     }
 }

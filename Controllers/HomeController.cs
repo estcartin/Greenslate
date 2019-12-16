@@ -1,23 +1,37 @@
 ﻿using Greenslate.Models;
-using Greenslate.Repositories.Implementations; //TODO: REMOVE
+using Greenslate.Repositories.Interfaces;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace Greenslate.Controllers
 {
     public class HomeController : Controller
     {
+        readonly IUsersRepository usersRepository;
+        readonly IProjectsRepository projectsRepository;
+
+        public HomeController(IUsersRepository userRepo, IProjectsRepository projectsRepo)
+        {
+            usersRepository = userRepo;
+            projectsRepository = projectsRepo;
+        }
+
         public ActionResult Index()
         {
-            var repo = new UsersRepository();
-
+            // Load users.
+            var users = usersRepository.GetAllUserNames();
             var vm = new IndexViewModel();
 
-            vm.UserNames = repo.GetAllUserNames();
+            // Check if data was received successfully
+            if (users.Status.IsSuccessful)
+            {
+                vm.Users = users.Data;
+            }
+            else 
+            {
+                // Redirect to generic error page
+                return Redirect("/Home/Error");
+            }
 
             return View(vm);
         }
@@ -39,16 +53,19 @@ namespace Greenslate.Controllers
         [HttpGet]
         public ActionResult GetUserProjectInfo(int id) 
         {
+            // Load projects for selected user.
+            var query = projectsRepository.GetUserProjectData(id);
 
-            var repo = new ProjectsRepository();
-
-            
-
-            var query = repo.GetUserProjectData(id).ToList();
-
+            // Serialize object to return as json.
             var result = JsonConvert.SerializeObject(query);
 
+            // If any error it will be handled in Javascript file.
             return Json(result, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Error()
+        {
+            return View();
         }
     }
 }

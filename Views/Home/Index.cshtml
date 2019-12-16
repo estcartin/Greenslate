@@ -5,30 +5,30 @@
 }
 
 <div>
-    <h1>Project info by user</h1>
-    <p class="lead">Select the user Id to query their project assignments.</p>
+    <h1>@Resources.StringResources.Index_Title</h1>
+    <p class="lead">@Resources.StringResources.Index_SelectUserText</p>
 </div>
 
-@Html.Label("Select a user: ")
+@Html.Label(@Resources.StringResources.Index_SelectUserDropdown)
 @Html.DropDownList("FromModel", Model.Names, "--", new { id = "UserSelect",  @class = "selectpicker" })
 
 <div id="NoContentMessage" class="container-fluid h3">
-    <p class="text-center bg-info">No content to display.</p>
+    <p class="text-center bg-info">@Resources.StringResources.Index_NoContentMessage</p>
 </div>
 
 <div id="ErrorMessage" class="container-fluid h3 hidden">
-    <p class="text-center bg-danger">There was an error retrieving data, please try again.</p>
+    <p class="text-center bg-danger">@Resources.ErrorResources.Index_ErrorMessage</p>
 </div>
 
 <table id="MainTable" class="table table-hover hidden">
     <thead>
         <tr>
-            <th scope="col">Project Id</th>
-            <th scope="col">Start Date</th>
-            <th scope="col">Time to Start</th>
-            <th scope="col">End Date</th>
-            <th scope="col">Credits</th>
-            <th scope="col">Status</th>
+            <th scope="col">@Resources.StringResources.Index_MainTable_ProjectId</th>
+            <th scope="col">@Resources.StringResources.Index_MainTable_StartDate</th>
+            <th scope="col">@Resources.StringResources.Index_MainTable_TimeToStart</th>
+            <th scope="col">@Resources.StringResources.Index_MainTable_EndDate</th>
+            <th scope="col">@Resources.StringResources.Index_MainTable_Credits</th>
+            <th scope="col">@Resources.StringResources.Index_MainTable_Status</th>
         </tr>
     </thead>
     <tbody id="MainTableContent">
